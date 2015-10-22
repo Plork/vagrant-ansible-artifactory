@@ -1,0 +1,4 @@
+---
+artifactory_url: "https://bintray.com/artifact/download/jfrog/artifactory-pro/org/artifactory/pro/jfrog-artifactory-pro/{{artifactory_version}}/jfrog-artifactory-pro-{{artifactory_version}}.zip"
+artifactory_file: "artifactory-{{artifactory_version}}.zip"
+artifactory_home: "/opt/jfrog/artifactory-pro-{{artifactory_version}}"

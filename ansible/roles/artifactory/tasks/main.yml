@@ -1,0 +1,63 @@
+---
+- name: 'make sure directory exists for artifactory'
+  file: dest=/opt/jfrog state=directory mode=0755
+
+- name: 'verify presence of artifactory'
+  stat: path="{{artifactory_home}}/webapps/artifactory.war"
+  register: jarfile
+
+- name: 'verify presence of artifactory_file'
+  stat: path=/tmp/{{artifactory_file}}
+  register: download
+
+- name: 'download artifactory'
+  get_url: url={{artifactory_url}} dest=/tmp/{{artifactory_file}}
+  retries: 3
+  when: not download.stat.exists
+
+- name: 'unzip artifactory'
+  unarchive: >
+    src=/tmp/{{artifactory_file}}
+    dest=/opt/jfrog
+  when: not jarfile.stat.exists
+
+- name: 'verify if an update is needed'
+  shell: "ls -1d /opt/jfrog/artifactory-pro-* | grep -v artifactory-pro-{{artifactory_version}}"
+  ignore_errors: yes
+  register: previous
+
+- name: 'stop artifactory before upgrade'
+  service: name=artifactory state=stopped
+  when: previous.stdout
+
+- name: 'move artifactory data folder'
+  shell: mv {{ previous.stdout }}/data {{artifactory_home}}
+  notify: restart artifactory
+  when: previous.stdout
+
+- name: 'remove previous artifactory'
+  file: dest={{ previous.stdout }} state=absent
+  when: previous.stdout
+
+- name: 'create user to run artifactory'
+  user: name={{artifactory_username}}
+
+- name: 'create config dir for artifactory'
+  file: >
+    dest=/etc/opt/jfrog/artifactory
+    state=directory
+    owner=root
+    mode=0755
+
+- name: 'create configuration file'
+  template: >
+    src=artifactory.default.j2
+    dest=/etc/opt/jfrog/artifactory/default
+    owner=root
+    group=root
+    mode=0644
+
+- name: 'install artifactory as a service'
+  command: "{{artifactory_home}}/bin/installService.sh {{artifactory_username}}"
+  notify:
+    - 'restart artifactory'

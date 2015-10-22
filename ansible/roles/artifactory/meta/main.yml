@@ -1,0 +1,4 @@
+---
+  dependencies:
+    - { role: java, java_major_version: "8", java_version: "8u60*", java_flavor: "oracle", java_oracle_accept_license_agreement: True }
+    - { role: unzip}

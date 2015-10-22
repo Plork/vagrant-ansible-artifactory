@@ -1,0 +1,4 @@
+---
+artifactory_version: "4.2.0"
+artifactory_username: "artifactory"
+artifactory_password: "password"

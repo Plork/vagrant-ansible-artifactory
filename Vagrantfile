@@ -37,9 +37,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     artifactory.vm.provision :shell, path: "provision/install-ansible.sh"
 
     artifactory.vm.synced_folder "./", "/vagrant", disabled: true
-    artifactory.vm.synced_folder "ansible/", "/etc/ansible", mount_options: ["dmode=777","fmode=666"]
+    artifactory.vm.synced_folder "playbook-artifactory/", "/home/vagrant/playbook-artifactory", mount_options: ["dmode=777","fmode=666"]
 
-    artifactory.vm.provision :shell, inline: "ansible-playbook /etc/ansible/playbooks/provision.yml -c local"
+    artifactory.vm.provision :shell, inline: "ansible-playbook playbook-artifactory/site.yml -c local"
 
   end
 

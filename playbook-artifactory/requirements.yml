@@ -1,0 +1,15 @@
+- src: https://github.com/Plork/ansible-role-artifactory
+  version: master
+  name: artifactory
+
+- src: https://github.com/Plork/ansible-role-unzip
+  version: master
+  name: unzip
+
+- src: https://github.com/Plork/ansible-role-java
+  version: master
+  name: java
+
+- src: https://github.com/Plork/ansible-role-nginx
+  version: master
+  name: nginx

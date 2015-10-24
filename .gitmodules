@@ -1,0 +1,3 @@
+[submodule "playbook-artifactory"]
+	path = playbook-artifactory
+	url = https://github.com/Plork/ansible-playbook-artifactory.git

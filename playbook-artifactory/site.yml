@@ -1,0 +1,13 @@
+# This Playbook deploys artifactory!
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+
+  pre_tasks:
+    - name: Instal roles
+      command: ansible-galaxy install -r requirements.yml
+
+  roles:
+    - { role: nginx}
+    - { role: artifactory }

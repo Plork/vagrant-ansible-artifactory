@@ -1,0 +1,10 @@
+nginx_client_max_body_size: "64m"
+nginx_remove_default_vhost: true
+nginx_vhosts:
+ - listen: "80 default_server"
+   server_name: "artifactory"
+   root: "/var/www/{{server_name}}"
+
+nginx_upstreams:
+ - name: {{server_name}}
+   servers: { "localhost:8081 fail_timeout=0" }

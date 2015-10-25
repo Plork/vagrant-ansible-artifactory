@@ -25,7 +25,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     artifactory.vm.box = "ubuntu/trusty64"
     artifactory.vm.network "private_network",
       ip: "192.168.56.4"
-    artifactory.vm.network "forwarded_port", guest: 80, host: 88
+    artifactory.vm.network "forwarded_port", guest: 80, host: 80
+    artifactory.vm.network "forwarded_port", guest: 8081, host: 8081
     artifactory.vm.hostname = "artifactory"
 
     artifactory.vm.box_check_update = false

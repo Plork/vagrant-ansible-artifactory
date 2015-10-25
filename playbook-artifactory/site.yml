@@ -4,9 +4,8 @@
   become: yes
   become_method: sudo
 
-  pre_tasks:
-    - name: Instal roles
-      command: ansible-galaxy install -r requirements.yml
+  vars_files:
+    - vars/main.yml
 
   roles:
     - { role: nginx}

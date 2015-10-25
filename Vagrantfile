@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     artifactory.vm.box = "ubuntu/trusty64"
     artifactory.vm.network "private_network",
       ip: "192.168.56.4"
-    artifactory.vm.network "forwarded_port", guest: 8081, host: 8081
+    artifactory.vm.network "forwarded_port", guest: 80, host: 88
     artifactory.vm.hostname = "artifactory"
 
     artifactory.vm.box_check_update = false
@@ -39,6 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     artifactory.vm.synced_folder "./", "/vagrant", disabled: true
     artifactory.vm.synced_folder "playbook-artifactory/", "/home/vagrant/playbook-artifactory", mount_options: ["dmode=777","fmode=666"]
 
+    artifactory.vm.provision :shell, inline: "ansible-galaxy install -r playbook-artifactory/requirements.yml --force"
     artifactory.vm.provision :shell, inline: "ansible-playbook playbook-artifactory/site.yml -c local"
 
   end

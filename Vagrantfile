@@ -4,6 +4,11 @@
 VAGRANTFILE_API_VERSION = "2"
 LOCAL_HTTP_PROXY = 'http://proxy:8080'
 
+$script = <<SCRIPT
+    echo Running Ansible provisioning
+    cd playbook-artifactory
+    ansible-playbook site.yml -c local
+SCRIPT
 #require './vagrant-provision-reboot-plugin'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -39,8 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     artifactory.vm.synced_folder "./", "/vagrant", disabled: true
     artifactory.vm.synced_folder "playbook-artifactory/", "/home/vagrant/playbook-artifactory", mount_options: ["dmode=777","fmode=666"]
 
-    artifactory.vm.provision :shell, inline: "ansible-galaxy install -r playbook-artifactory/requirements.yml --force"
-    artifactory.vm.provision :shell, inline: "ansible-playbook playbook-artifactory/site.yml -c local"
+    artifactory.vm.provision :shell, inline: $script
 
   end
 

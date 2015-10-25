@@ -7,6 +7,7 @@ LOCAL_HTTP_PROXY = 'http://proxy:8080'
 $script = <<SCRIPT
     echo Running Ansible provisioning
     cd playbook-artifactory
+    ansible-galaxy install -r requirements.yml --force
     ansible-playbook site.yml -c local
 SCRIPT
 #require './vagrant-provision-reboot-plugin'
